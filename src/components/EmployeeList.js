@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import Employee from "./Employee";
 import { Button, Modal } from "react-bootstrap";
 import { EmployeeContext } from "../contexts/EmployeeContext";
@@ -41,10 +41,20 @@ const EmployeeList = () => {
   //   console.log("COMPONENT RENDERED");
   // }, []);
 
-  // 🔻
+  // 🔻 Employees de değişiklik olduğu zaman MODALI kapat. handleClose
   useEffect(() => {
     handleClose();
   }, [employees]);
+
+  // 🔻useRef ile input a focuslanmak
+  const myRef = useRef(null);
+  console.log(myRef);
+  console.log(myRef.current);
+  const onButtonClick = () => {
+    console.log(myRef);
+    console.log(myRef.current);
+    myRef.current.focus();
+  };
 
   return (
     <>
@@ -67,7 +77,6 @@ const EmployeeList = () => {
           </div>
         </div>
       </div>
-
       <table className="table table-striped table-hover">
         <thead>
           <tr>
@@ -82,7 +91,6 @@ const EmployeeList = () => {
           <Employee employees={employees} />
         </tbody>
       </table>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header className="modal-header" closeButton>
           <Modal.Title>Add Employee</Modal.Title>
@@ -96,11 +104,16 @@ const EmployeeList = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {/* useEffet sayaç için */}
+      {/* 🔻 useEffet sayaç için */}
       {/* <div>
         <p>You clicked {count} times</p>
         <button onClick={() => setCount(count + 1)}>Click me</button>
       </div> */}
+      {/* 🔻 ders 13 ikinci yarı useRef */}
+      <input ref={myRef} type="text"></input>
+      <button onClick={onButtonClick}> Focus Input </button>
+
+      {/* onClick={onButtonClick} */}
     </>
   );
 };
